@@ -34,25 +34,25 @@ describe('MyLodash: merge', () => {
     });
 
     test('should merge arrays as objects', () => {
-        object1 = {0: '1', 3: 2};
+        object1 = { 0: '1', 3: 2 };
         object2 = [3, 4];
-        let result = {0: 3, 1: 4, 3: 2};
+        let result = { 0: 3, 1: 4, 3: 2 };
         expect(_.merge(object1, object2)).toEqual(result);
         result = ['1', 4, undefined, 2];
         expect(_.merge(object2, object1)).toEqual(result);
     });
 
     test('should merge strings to objects', () => {
-        object1 = {0: '1', 3: 2};
+        object1 = { 0: '1', 3: 2 };
         object2 = 'ab';
-        let result = {0: 'a', 1: 'b', 3: 2};
+        let result = { 0: 'a', 1: 'b', 3: 2 };
         expect(_.merge(object1, object2)).toEqual(result);
     });
 
-    test('should skip undefined source properties', () => {
-        object1 = [3, 4];
-        object2 = {0: undefined, 1: 5, 3: 2};
-        result = [3, 5, undefined, 2];
+    test('should skip undefined source properties if they exist in the \'object\'', () => {
+        object1 = { 0: 3, 1: {'a': 2} };
+        object2 = { 0: undefined, 1: {'a': undefined}, 3: 2 };
+        result = { 0: 3, 1: {'a': 2}, 3: 2 };
         expect(_.merge(object1, object2)).toEqual(result);
     });
 

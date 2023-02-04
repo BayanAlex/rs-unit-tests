@@ -1,21 +1,30 @@
 class MyLodash {
+
+//*************** Utils ***************
+
     pushToArray(array, value) {
         array[array.length] = value;
     }
 
-    arrayFrom(array) {
-        if (array instanceof Array) return [...array];
-        if (typeof array === 'string') return array.split('');
-        if (array.length) {
-            const count = +array.length;
+    arrayFrom(value) {
+        if (value instanceof Array) return [...value];
+        if (typeof value === 'string') return value.split('');
+        if (value?.length) {
+            const count = +value.length;
             if (isNaN(count) || !isFinite(count) || count <= 0) return [];
             const result = [];
             for (let i = 0; i < count; i += 1) {
-                this.pushToArray(result, array[i]);
+                this.pushToArray(result, value[i]);
             }
             return result;
         }
         return [];
+    }
+
+    objectFrom(value) {
+        if (typeof value === 'string' || value instanceof Array) return {...value};
+        if (value instanceof Object) return JSON.parse(JSON.stringify(value));
+        return {};
     }
 
     slice(array, start, end) {
@@ -26,6 +35,66 @@ class MyLodash {
         }
         return result;
     }
+
+    toPath(value) {
+        if (value instanceof Array) {
+            return value;
+        } else if (typeof value === 'string') {
+            return value.replace('.[', '.').replace('[', '.').replace('].', '.').replace(']', '.').split('.');
+        } else {
+            return [value];
+        }
+    }
+
+    identity = (value) => value;
+
+    get(object, path, defaultValue) {
+        let _path = this.toPath(path);
+        let result = object;
+        for (let i = 0; i < _path.length; i += 1) {
+            if (result) {
+                result = result[_path[i]];
+            } else return defaultValue;
+        }
+        return result;
+    }
+
+    set(object, path, value) {
+        const _path = this.toPath(path);
+        let curPath = object;
+        for (let i = 0; i < _path.length - 1; i += 1) {
+            if (!isNaN(Number.parseInt(_path[i + 1]))) curPath[_path[i]] = [];
+            else curPath[_path[i]] = {};
+            curPath = curPath[_path[i]];
+        }
+        curPath[_path[_path.length - 1]] = value;
+    }
+
+    matches(source) {
+        return (obj) => JSON.stringify(obj) === JSON.stringify(source);
+    }
+
+    matchesProperty(path, srcValue) {
+        return (obj) => this.get(obj, path) === srcValue;
+    }
+
+    property(path) {
+        return (obj) => this.get(obj, path);
+    }
+
+    assignSpecFunction(value) {
+        if (value instanceof Function) {
+            return value;
+        } else if (value instanceof Array) {
+            return this.matchesProperty(...value);
+        } else if (value instanceof Object) {
+            return this.matches(value);
+        } else {
+            return this.property(value);
+        }
+    }
+
+//*************** Objects ***************
 
     chunk(array, size = 1) {
         const result = [];
@@ -48,8 +117,6 @@ class MyLodash {
     }
 
     compact(array) {
-        if (!array || !array.length) return [];
-
         const testArray = this.arrayFrom(array);
         const result = [];
         for (let value of testArray) {
@@ -67,57 +134,12 @@ class MyLodash {
         return result;
     }
 
-    static identity = (value) => value;
-
-    static get(object, path, defaultValue) {
-        let _path;
-        if (path instanceof Array) {
-            _path = path;
-        } else if (typeof path === 'string') {
-            _path = path.split('.');
-        } else {
-            _path = [path];
-        }
-
-        let result = object;
-        for (let i = 0; i < _path.length; i += 1) {
-            if (result) {
-                result = result[_path[i]];
-            } else return defaultValue;
-        }
-        return result;
-    }
-
-    static matches(source) {
-        return (obj) => JSON.stringify(obj) === JSON.stringify(source);
-    }
-
-    static matchesProperty(path, srcValue) {
-        return (obj) => MyLodash.get(obj, path) === srcValue;
-    }
-
-    static property(path) {
-        return (obj) => MyLodash.get(obj, path);
-    }
-
-    static assignSpecFunction(value) {
-        if (value instanceof Function) {
-            return value;
-        } else if (value instanceof Array) {
-            return MyLodash.matchesProperty(...value);
-        } else if (value instanceof Object) {
-            return MyLodash.matches(value);
-        } else {
-            return MyLodash.property(value);
-        }
-    }
-
-    dropWhile(array, predicate = MyLodash.identity) {
+    dropWhile(array, predicate = this.identity) {
         if (!array || !array.length || !predicate) return [];
         const testArray = this.arrayFrom(array);
 
         const result = [];
-        const specFunction = MyLodash.assignSpecFunction(predicate);
+        const specFunction = this.assignSpecFunction(predicate);
 
         let keepDropping = true;
         for (let i = 0; i < testArray.length; i += 1) {
@@ -139,11 +161,11 @@ class MyLodash {
         return result;
     }
 
-    filter(collection, predicate = MyLodash.identity) {
+    filter(collection, predicate = this.identity) {
         if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
 
         const result = [];
-        const specFunction = MyLodash.assignSpecFunction(predicate);
+        const specFunction = this.assignSpecFunction(predicate);
         for (let prop in collection) {
             if (specFunction(collection[prop], prop, collection)) {
                 this.pushToArray(result, collection[prop]);
@@ -152,12 +174,12 @@ class MyLodash {
         return result;
     }
 
-    find(collection, predicate = MyLodash.identity, fromIndex = 0) {
+    find(collection, predicate = this.identity, fromIndex = 0) {
         if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
 
         let start = +fromIndex;
         if (isNaN(start)) start = 0;
-        const specFunction = MyLodash.assignSpecFunction(predicate);
+        const specFunction = this.assignSpecFunction(predicate);
 
         let index = 0;
         for (let prop in collection) {
@@ -190,12 +212,12 @@ class MyLodash {
         return false;
     }
 
-    map(collection, iteratee = MyLodash.identity) {
+    map(collection, iteratee = this.identity) {
         if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
 
         if (iteratee === null || iteratee === undefined) return collection;
 
-        const specFunction = MyLodash.assignSpecFunction(iteratee);
+        const specFunction = this.assignSpecFunction(iteratee);
 
         const result = [];
         for (let prop in collection) {
@@ -208,7 +230,7 @@ class MyLodash {
         if (arrays.length === 0) return [];
 
         const result = [];
-        const validArray = (array) => !!array && (array instanceof Array || (typeof array === 'object' && !isNaN(array.length)));
+        const validArray = (array) => !!array && (array instanceof Array || (typeof array === 'object' && !isNaN(+array.length) && isFinite(+array.length)));
         const lenArr = this.map(arrays, (array) => validArray(array) ? +array.length : 0);
         const maxLength = Math.max(...lenArr);
         for (let array of arrays) {
@@ -228,6 +250,7 @@ class MyLodash {
 
     merge(object, ...sources) {
         const result = object instanceof Object ? JSON.parse(JSON.stringify(object)) : new Object(object);
+
         if (!sources || (typeof object !== 'object')) return result;
 
         const setProp = (source, dest, prop) => {
@@ -239,7 +262,7 @@ class MyLodash {
                 if (typeof source[prop][p] === 'object') {
                     setProp(source[prop], dest[prop], p);
                 }
-                else if (source[prop] !== undefined) {
+                else if (source[prop][p] !== undefined) {
                     dest[prop][p] = source[prop][p];
                 }
             }
@@ -254,25 +277,108 @@ class MyLodash {
         return result;
     }
 
-    // omit() {
+    omit(object, ...paths) {
+        const result = this.objectFrom(object);
 
-    // }
+        const removeProp = (path) => {
+            let _path = this.toPath(path);
+            let curPath = result;
+            for (let i = 0; i < _path.length; i += 1) {
+                if (!curPath) return;
+                if (i < _path.length - 1) curPath = curPath[_path[i]];
+            }
+            delete curPath[_path[_path.length - 1]];
+        };
 
-    // omitBy() {
+        for (let path of paths) {
+            if (path instanceof Array) {
+                for (let subpath of path) {
+                    // if (!(subpath instanceof Object)) {
+                        removeProp(subpath);
+                    // }
+                }
+            } else {
+                removeProp(path);
+            }
+        }
+        return result;
+    }
 
-    // }
+    omitBy(object, predicate = this.identity) {
+        if (!(object instanceof Object) && (typeof object !== 'string')) return {};
+        if (!(predicate instanceof Function)) return object;
 
-    // pick() {
+        const result = this.objectFrom(object);
+        for (let key in result) {
+            if (predicate(result[key], key)) {
+                delete result[key];
+            }
+        }
 
-    // }
+        return result;
+    }
 
-    // pickBy() {
+    pick(object, ...paths) {
+        if (!(object instanceof Object) && (typeof object !== 'string')) return {};
 
-    // }
+        const result = {};
 
-    // toPairs() {
+        const addProp = (path) => {
+            const noValue = {};
+            const value = this.get(object, path, noValue);
+            if (value !== noValue) {
+                this.set(result, path, value);
+            }
+        };
 
-    // }
+        for (let path of paths) {
+            if (path instanceof Array) {
+                for (let subpath of path) {
+                    addProp(subpath);
+                }
+            } else {
+                addProp(path);
+            }
+        }
+        return result;
+    }
+
+    pickBy(object, predicate = this.identity) {
+        if (!(predicate instanceof Function)) return {};
+
+        const result = this.objectFrom(object);
+        for (let key in result) {
+            if (!predicate(result[key], key)) {
+                delete result[key];
+            }
+        }
+
+        return result;
+    }
+
+    toPairs(object) {
+        const result = [];
+        if (object instanceof Set) {
+            for (let key of object.keys()) { // Set.prototype is allowed
+                this.pushToArray(result, [key, key]);
+            }
+            return result;
+        }
+
+        if (object instanceof Map) {
+            for (let key of object.keys()) { // Map.prototype is allowed
+                this.pushToArray(result, [key, object.get(key)]);
+            }
+            return result;
+        }
+
+        const _object = this.objectFrom(object);
+        for (let i in _object) {
+            this.pushToArray(result, [i, _object[i]]);
+        }
+
+        return result;
+    }
 }
 
 module.exports = MyLodash;

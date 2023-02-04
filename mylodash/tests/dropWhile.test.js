@@ -92,5 +92,18 @@ describe('MyLodash: dropWhile', () => {
         expect(_.dropWhile(null)).toEqual([]);
         expect(_.dropWhile(undefined)).toEqual([]);
         expect(_.dropWhile(Infinity)).toEqual([]);
+        const testFunction = (value) => value === 1;
+        let testArrayLike = {
+            0: 1,
+            1: 2,
+            length: 'a'
+        }
+        expect(_.dropWhile(testArrayLike, testFunction)).toEqual([]);
+        testArrayLike = {
+            0: 1,
+            1: 2,
+            length: Infinity
+        }
+        expect(_.dropWhile(testArrayLike, testFunction)).toEqual([]);
     });
 });

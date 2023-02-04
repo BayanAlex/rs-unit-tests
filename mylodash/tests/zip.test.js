@@ -45,10 +45,22 @@ describe('MyLodash: zip', () => {
     });
 
     test('should return an empty array if \'arrays\' is an invalid type or empty', () => {
-        expect(_.map()).toEqual([]);
-        expect(_.map([])).toEqual([]);
-        expect(_.map(null)).toEqual([]);
-        expect(_.map(undefined)).toEqual([]);
-        expect(_.map(Infinity)).toEqual([]);
+        expect(_.zip()).toEqual([]);
+        expect(_.zip([])).toEqual([]);
+        expect(_.zip(null)).toEqual([]);
+        expect(_.zip(undefined)).toEqual([]);
+        expect(_.zip(Infinity)).toEqual([]);
+        let testArrayLike = {
+            0: 1,
+            1: 2,
+            length: 'a'
+        }
+        expect(_.zip(testArrayLike)).toEqual([]);
+        testArrayLike = {
+            0: 1,
+            1: 2,
+            length: Infinity
+        }
+        expect(_.zip(testArrayLike)).toEqual([]);
     });
 });

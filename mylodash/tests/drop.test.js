@@ -92,6 +92,18 @@ describe('MyLodash: drop', () => {
         expect(_.drop(null, 3)).toEqual([]);
         expect(_.drop(undefined, 3)).toEqual([]);
         expect(_.drop(Infinity, 3)).toEqual([]);
+        let testArrayLike = {
+            0: 1,
+            1: 2,
+            length: 'a'
+        }
+        expect(_.drop(testArrayLike)).toEqual([]);
+        testArrayLike = {
+            0: 1,
+            1: 2,
+            length: Infinity
+        }
+        expect(_.drop(testArrayLike)).toEqual([]);
     });
 
     test('should return an array equal to original one if \'n\' is an invalid type', () => {

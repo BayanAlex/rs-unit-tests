@@ -63,5 +63,17 @@ describe('MyLodash: compact', () => {
         expect(_.compact(null)).toEqual([]);
         expect(_.compact(undefined)).toEqual([]);
         expect(_.compact(Infinity)).toEqual([]);
+        let testArrayLike = {
+            0: 1,
+            1: 2,
+            length: 'a'
+        }
+        expect(_.compact(testArrayLike)).toEqual([]);
+        testArrayLike = {
+            0: 1,
+            1: 2,
+            length: Infinity
+        }
+        expect(_.compact(testArrayLike)).toEqual([]);
     });
 });

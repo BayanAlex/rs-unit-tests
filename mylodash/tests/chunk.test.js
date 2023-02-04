@@ -100,6 +100,18 @@ describe('MyLodash: chunk', () => {
         expect(_.chunk(null, 3)).toEqual([]);
         expect(_.chunk(undefined, 3)).toEqual([]);
         expect(_.chunk(Infinity, 3)).toEqual([]);
+        let testArrayLike = {
+            0: 1,
+            1: 2,
+            length: 'a'
+        }
+        expect(_.chunk(testArrayLike)).toEqual([]);
+        testArrayLike = {
+            0: 1,
+            1: 2,
+            length: Infinity
+        }
+        expect(_.chunk(testArrayLike)).toEqual([]);
     });
 
     test('should return an empty array if \'size\' is an invalid type', () => {
