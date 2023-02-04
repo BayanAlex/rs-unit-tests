@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: compact', () => {
     let _ = new MyLodash();
@@ -23,17 +24,15 @@ describe('MyLodash: compact', () => {
     });
 
     test('should remove falsey values', () => {
-        const result = [1, 2, true, 'test', {}, { a: 3 }, [4], Infinity];
-        expect(_.compact(testArray)).toEqual(result);
+        expect(_.compact(testArray)).toEqual(OrigLodash.compact(testArray));
     });
 
     test('should work with new Array', () => {
-        expect(_.compact(new Array(3))).toEqual([]);
+        expect(_.compact(new Array(3))).toEqual(OrigLodash.compact(new Array(3)));
     });
 
     test('should split a string', () => {
-        const result = ['1', '2', '3', 'a', 'b', 'c'];
-        expect(_.compact('123abc')).toEqual(result);
+        expect(_.compact('123abc')).toEqual(OrigLodash.compact('123abc'));
     });
 
     test('should work with array-like objects', () => {
@@ -45,9 +44,7 @@ describe('MyLodash: compact', () => {
             4: null,
             length: 5
         }
-        let result = [1, 2, true];
-
-        expect(_.compact(testArrayLike)).toEqual(result);
+        expect(_.compact(testArrayLike)).toEqual(OrigLodash.compact(testArrayLike));
         testArrayLike = {
             0: 1,
             1: 2,
@@ -55,14 +52,14 @@ describe('MyLodash: compact', () => {
             length: 4
         }
         result = [1, 2];
-        expect(_.compact(testArrayLike)).toEqual(result);
+        expect(_.compact(testArrayLike)).toEqual(OrigLodash.compact(testArrayLike));
     });
 
     test('should return an empty array if \'array\' has invalid type', () => {
-        expect(_.compact({ 0: 3 })).toEqual([]);
-        expect(_.compact(null)).toEqual([]);
-        expect(_.compact(undefined)).toEqual([]);
-        expect(_.compact(Infinity)).toEqual([]);
+        expect(_.compact({ 0: 3 })).toEqual(OrigLodash.compact({ 0: 3 }));
+        expect(_.compact(null)).toEqual(OrigLodash.compact(null));
+        expect(_.compact(undefined)).toEqual(OrigLodash.compact(undefined));
+        expect(_.compact(Infinity)).toEqual(OrigLodash.compact(Infinity));
         let testArrayLike = {
             0: 1,
             1: 2,

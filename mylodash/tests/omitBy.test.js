@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: omitBy', () => {
     let _ = new MyLodash();
@@ -32,46 +33,41 @@ describe('MyLodash: omitBy', () => {
     });
 
     test('should apply a user function to omit by value', () => {
-        const result = { a: 1, c: 3 };
-        expect(_.omitBy(object1, testFunction)).toEqual(result);
+        expect(_.omitBy(object1, testFunction)).toEqual(OrigLodash.omitBy(object1, testFunction));
     });
 
     test('should apply a user function to omit by key', () => {
-        const result = { '1': 3 };
-        expect(_.omitBy(object2, testFunction2)).toEqual(result);
+        expect(_.omitBy(object2, testFunction2)).toEqual(OrigLodash.omitBy(object2, testFunction2));
     });
 
     test('should make an object from a string', () => {
-        const result = { 1: 'e', 2: 's', 3: 't' };
         testFunction = (value, key) => key === '0';
-        expect(_.omitBy(string, testFunction)).toEqual(result);
+        expect(_.omitBy(string, testFunction)).toEqual(OrigLodash.omitBy(string, testFunction));
     });
 
     test('should make an object from an array', () => {
-        const result =  { 0: 0, 1: '1', 3: true, 4: null };
-        expect(_.omitBy(array, testFunction)).toEqual(result);
+        expect(_.omitBy(array, testFunction)).toEqual(OrigLodash.omitBy(array, testFunction));
     });
 
     test('should skip nested object\'s properties', () => {
-        let result = { 'b': {'a': 1, 'c': 5}, '1': 3 };
         testFunction = (value, key) => key === 'a';
-        expect(_.omitBy(object2, testFunction)).toEqual(result);
+        expect(_.omitBy(object2, testFunction)).toEqual(OrigLodash.omitBy(object2, testFunction));
     });
 
     test('should apply identity function is \'predicate\' argument is ommited', () => {
-        expect(_.omitBy(array)).toEqual({0: 0, 4: null});
+        expect(_.omitBy(array)).toEqual(OrigLodash.omitBy(array));
     });
 
     test('should handle invalid or empty \'paths\'', () => {
-        expect(_.omitBy(object1, undefined)).toEqual({});
-        expect(_.omitBy(object1, 12)).toEqual(object1);
-        expect(_.omitBy(object1, [12])).toEqual(object1);
-        expect(_.omitBy(object1, '1')).toEqual(object1);
+        expect(_.omitBy(object1, undefined)).toEqual(OrigLodash.omitBy(object1, undefined));
+        expect(_.omitBy(object1, 12)).toEqual(OrigLodash.omitBy(object1, 12));
+        expect(_.omitBy(object1, [12])).toEqual(OrigLodash.omitBy(object1, [12]));
+        expect(_.omitBy(object1, '1')).toEqual(OrigLodash.omitBy(object1, '1'));
     });
 
     test('should return an empty object if \'object\' is invalid', () => {
-        expect(_.omitBy(12, 0)).toEqual({});
-        expect(_.omitBy(undefined, 0)).toEqual({});
-        expect(_.omitBy(null, 0)).toEqual({});
+        expect(_.omitBy(12, 0)).toEqual(OrigLodash.omitBy(12, 0));
+        expect(_.omitBy(undefined, 0)).toEqual(OrigLodash.omitBy(undefined, 0));
+        expect(_.omitBy(null, 0)).toEqual(OrigLodash.omitBy(null, 0));
     });
 });

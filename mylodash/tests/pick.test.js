@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: pick', () => {
     let _ = new MyLodash();
@@ -24,55 +25,49 @@ describe('MyLodash: pick', () => {
     });
 
     test('should pick properties from a given string path', () => {
-        const result = { 'b': {'a': 1} };
-        expect(_.pick(object2, 'b.a')).toEqual(result);
+        expect(_.pick(object2, 'b.a')).toEqual(OrigLodash.pick(object2, 'b.a'));
     });
 
     test('should pick properties from a given array of paths', () => {
-        let result = { 'a': 1, 'b': {'a': 1} };
-        expect(_.pick(object2, ['a', 'b.a'])).toEqual(result);
-        result = { 'b': [{'a': 1}] };
-        expect(_.pick(object3, 'b[0]a')).toEqual(result);
+        expect(_.pick(object2, ['a', 'b.a'])).toEqual(OrigLodash.pick(object2, ['a', 'b.a']));
+        expect(_.pick(object3, 'b[0]a')).toEqual(OrigLodash.pick(object3, 'b[0]a'));
     });
 
     test('should pick properties from multiple paths arguments', () => {
-        const result = { 'a': 1, 'b': {'a': 1}, 'c': 3 }
-        expect(_.pick(object2, 'a', 'b.a', ['c'])).toEqual(result);
+        expect(_.pick(object2, 'a', 'b.a', ['c'])).toEqual(OrigLodash.pick(object2, 'a', 'b.a', ['c']));
     });
 
     test('should work with path arguments of different types', () => {
         object1 = { undefined: 1, null: '2', NaN: 3, 'c': 4 };
-        let result = { undefined: 1, NaN: 3 };
-        expect(_.pick(object1, undefined, NaN)).toEqual(result);
-        result = { null: '2' };
-        expect(_.pick(object1, null)).toEqual(result);
+        expect(_.pick(object1, undefined, NaN)).toEqual(OrigLodash.pick(object1, undefined, NaN));
+        expect(_.pick(object1, null)).toEqual(OrigLodash.pick(object1, null));
     });
 
     test('should make an object from string', () => {
         const result = { 0: 't' };
-        expect(_.pick(string, 0)).toEqual(result);
+        expect(_.pick(string, 0)).toEqual(OrigLodash.pick(string, 0));
     });
 
     test('should make an object from array', () => {
         const result =  { 0: 0 };
-        expect(_.pick(array, 0)).toEqual(result);
+        expect(_.pick(array, 0)).toEqual(OrigLodash.pick(array, 0));
     });
 
     test('should skip nested object\'s properties', () => {
         let result = { 'c': 3 };
-        expect(_.pick(object2, [0, 'c'])).toEqual(result);
+        expect(_.pick(object2, [0, 'c'])).toEqual(OrigLodash.pick(object2, [0, 'c']));
     });
 
     test('should skip invalid or empty \'paths\'', () => {
-        expect(_.pick(object1)).toEqual({});
-        expect(_.pick(object1, {})).toEqual({});
-        expect(_.pick(object1, 'f.d')).toEqual({});
+        expect(_.pick(object1)).toEqual(OrigLodash.pick(object1));
+        expect(_.pick(object1, {})).toEqual(OrigLodash.pick(object1, {}));
+        expect(_.pick(object1, 'f.d')).toEqual(OrigLodash.pick(object1, 'f.d'));
 
     });
 
     test('should return an empty object if \'object\' is invalid', () => {
-        expect(_.pick(12, 0)).toEqual({});
-        expect(_.pick(undefined, 0)).toEqual({});
-        expect(_.pick(null, 0)).toEqual({});
+        expect(_.pick(12, 0)).toEqual(OrigLodash.pick(12, 0));
+        expect(_.pick(undefined, 0)).toEqual(OrigLodash.pick(undefined, 0));
+        expect(_.pick(null, 0)).toEqual(OrigLodash.pick(null, 0));
     });
 });

@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: includes', () => {
     let _ = new MyLodash();
@@ -32,61 +33,61 @@ describe('MyLodash: includes', () => {
     });
 
     test('should work with an array', () => {
-        expect(_.includes(testArray, { 'user': 'barney',  'active': false })).toBe(true);
-        expect(_.includes(testArray2, 3)).toBe(true);
-        expect(_.includes(testArray2, 20)).toBe(false);
+        expect(_.includes(testArray, { 'user': 'barney',  'active': false })).toBe(OrigLodash.includes(testArray, { 'user': 'barney',  'active': false }));
+        expect(_.includes(testArray2, 3)).toBe(OrigLodash.includes(testArray2, 3));
+        expect(_.includes(testArray2, 20)).toBe(OrigLodash.includes(testArray2, 20));
     });
 
     test('should work with different types of array items', () => {
-        expect(_.includes(testArray3, null)).toBe(true);
-        expect(_.includes(testArray3, {a: 3})).toBe(true);
-        expect(_.includes(testArray3, undefined)).toBe(true);
+        expect(_.includes(testArray3, null)).toBe(OrigLodash.includes(testArray3, null));
+        expect(_.includes(testArray3, {a: 3})).toBe(OrigLodash.includes(testArray3, {a: 3}));
+        expect(_.includes(testArray3, undefined)).toBe(OrigLodash.includes(testArray3, undefined));
     });
 
     test('should work with an object', () => {
-        expect(_.includes(testObject, 'barney')).toBe(true);
-        expect(_.includes(testObject, 35)).toBe(true);
-        expect(_.includes(testObject, 15)).toBe(false);
+        expect(_.includes(testObject, 'barney')).toBe(OrigLodash.includes(testObject, 'barney'));
+        expect(_.includes(testObject, 35)).toBe(OrigLodash.includes(testObject, 35));
+        expect(_.includes(testObject, 15)).toBe(OrigLodash.includes(testObject, 15));
     });
 
     test('should work with different types of object properties', () => {
-        expect(_.includes(testObject2, null)).toBe(true);
-        expect(_.includes(testObject2, false)).toBe(true);
-        expect(_.includes(testObject2, undefined)).toBe(true);
+        expect(_.includes(testObject2, null)).toBe(OrigLodash.includes(testObject2, null));
+        expect(_.includes(testObject2, false)).toBe(OrigLodash.includes(testObject2, false));
+        expect(_.includes(testObject2, undefined)).toBe(OrigLodash.includes(testObject2, undefined));
     });
 
     test('should work with a string', () => {
-        expect(_.includes(testString, 'to')).toBe(true);
-        expect(_.includes(testString, '')).toBe(true);
-        expect(_.includes(testString, 'TO')).toBe(false);
+        expect(_.includes(testString, 'to')).toBe(OrigLodash.includes(testString, 'to'));
+        expect(_.includes(testString, '')).toBe(OrigLodash.includes(testString, ''));
+        expect(_.includes(testString, 'TO')).toBe(OrigLodash.includes(testString, 'TO'));
     });
 
     test('should convert \'value\' to a string', () => {
-        expect(_.includes(testString, 12)).toBe(true);
-        expect(_.includes(testString, null)).toBe(true);
+        expect(_.includes(testString, 12)).toBe(OrigLodash.includes(testString, 12));
+        expect(_.includes(testString, null)).toBe(OrigLodash.includes(testString, null));
     });
 
     test('should start a search from \'fromIndex\'', () => {
-        expect(_.includes(testArray2, 1, 2)).toBe(false);
-        expect(_.includes(testArray2, 1, -2)).toBe(true);
-        expect(_.includes(testArray2, 1, 1)).toBe(true);
-        expect(_.includes(testArray2, 1, 10)).toBe(false);
-        expect(_.includes(testArray2, 1, Infinity)).toBeUndefined;
+        expect(_.includes(testArray2, 1, 2)).toBe(OrigLodash.includes(testArray2, 1, 2));
+        expect(_.includes(testArray2, 1, -6)).toBe(OrigLodash.includes(testArray2, 1, -6));
+        expect(_.includes(testArray2, 1, 1)).toBe(OrigLodash.includes(testArray2, 1, 1));
+        expect(_.includes(testArray2, 1, 10)).toBe(OrigLodash.includes(testArray2, 1, 10));
+        expect(_.includes(testArray2, 1, Infinity)).toBe(OrigLodash.includes(testArray2, 1, Infinity));
     });
 
     test('should convert \'fromIndex\' to a number', () => {
-        expect(_.includes(testArray2, 1, '2')).toBe(false);
-        expect(_.includes(testArray2, 1, '1')).toBe(true);
+        expect(_.includes(testArray2, 1, '2')).toBe(OrigLodash.includes(testArray2, 1, '2'));
+        expect(_.includes(testArray2, 1, '1')).toBe(OrigLodash.includes(testArray2, 1, '1'));
     });
 
     test('should start a search from the beginning of the collection if \'fromIndex\' is invalid', () => {
-        expect(_.includes(testArray2, 1, NaN)).toBe(true);
-        expect(_.includes(testArray2, 1, {})).toBe(true);
+        expect(_.includes(testArray2, 1, NaN)).toBe(OrigLodash.includes(testArray2, 1, NaN));
+        expect(_.includes(testArray2, 1, {})).toBe(OrigLodash.includes(testArray2, 1, {}));
     });
 
     test('should return an empty array if \'collection\' is an invalid type', () => {
-        expect(_.includes(null, 1)).toBe(false);
-        expect(_.includes(undefined, 1)).toBe(false);
-        expect(_.includes(Infinity, 1)).toBe(false);
+        expect(_.includes(null, 1)).toBe(OrigLodash.includes(null, 1));
+        expect(_.includes(undefined, 1)).toBe(OrigLodash.includes(undefined, 1));
+        expect(_.includes(Infinity, 1)).toBe(OrigLodash.includes(Infinity, 1));
     });
 });

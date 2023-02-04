@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: map', () => {
     let _ = new MyLodash();
@@ -33,56 +34,55 @@ describe('MyLodash: map', () => {
 
     test('should work with an array collection', () => {
         const testFunction = (value) => value * 2;
-        expect(_.map(testArray2, testFunction)).toEqual([0, 2, 4, 6, 10, 12, 18]);
+        expect(_.map(testArray2, testFunction)).toEqual(OrigLodash.map(testArray2, testFunction));
     });
 
     test('should work with an object collection', () => {
         let testFunction = (value) => value * 2;
-        expect(_.map(testObject3, testFunction)).toEqual([2, 4, 6]);
+        expect(_.map(testObject3, testFunction)).toEqual(OrigLodash.map(testObject3, testFunction));
         testFunction = (value, key) => `${key}_${value}`;
-        expect(_.map(testObject, testFunction)).toEqual(['user_barney',  'age_35', 'active_false']);
+        expect(_.map(testObject, testFunction)).toEqual(OrigLodash.map(testObject, testFunction));
     });
 
     test('should apply a user iteratee function', () => {
         let testFunction = (obj) => obj.user;
         let result = ['barney',  'fred', 'pebbles'];
-        expect(_.map(testArray, testFunction)).toEqual(result);
+        expect(_.map(testArray, testFunction)).toEqual(OrigLodash.map(testArray, testFunction));
 
         testFunction = (value, index) => `${index}: ${!!value}`;
         result = ['a: false', 'b: false', 'null: false', 'c: true'];
-        expect(_.map(testObject2, testFunction)).toEqual(result);
+        expect(_.map(testObject2, testFunction)).toEqual(OrigLodash.map(testObject2, testFunction));
     });
 
     test('should apply _.matches shorthand', () => {
-        expect(_.map(testArray, testArray[0])).toEqual([true, false, false]);
+        expect(_.map(testArray, testArray[0])).toEqual(OrigLodash.map(testArray, testArray[0]));
     });
 
     test('should apply _.matchesProperty shorthand', () => {
-        expect(_.map(testArray, ['active', false])).toEqual([true, true, false]);
+        expect(_.map(testArray, ['active', false])).toEqual(OrigLodash.map(testArray, ['active', false]));
     });
 
     test('should apply _.property shorthand', () => {
-        const result = ['barney',  'fred', 'pebbles'];
-        expect(_.map(testArray, 'user')).toEqual(result);
-        expect(_.map(testArray, null)).toEqual(testArray);
-        expect(_.map(testArray, undefined)).toEqual(testArray);
-        expect(_.map(testArray, NaN)).toEqual([undefined, undefined, undefined]);
-        expect(_.map(testArray, '')).toEqual([undefined, undefined, undefined]);
+        expect(_.map(testArray, 'user')).toEqual(OrigLodash.map(testArray, 'user'));
+        expect(_.map(testArray, null)).toEqual(OrigLodash.map(testArray, null));
+        expect(_.map(testArray, undefined)).toEqual(OrigLodash.map(testArray, undefined));
+        expect(_.map(testArray, NaN)).toEqual(OrigLodash.map(testArray, NaN));
+        expect(_.map(testArray, '')).toEqual(OrigLodash.map(testArray, ''));
     });
 
     test('should return an original collection if iteratee is omitted', () => {
-        expect(_.map(testArray)).toEqual(testArray);
+        expect(_.map(testArray)).toEqual(OrigLodash.map(testArray));
     });
 
     test('should split a string', () => {
         let testFunction = (value) => value * 2;
         const result = [2, 4, 6, 10, 14];
-        expect(_.map(testString, testFunction)).toEqual(result);
+        expect(_.map(testString, testFunction)).toEqual(OrigLodash.map(testString, testFunction));
     });
 
     test('should return an empty array if \'collection\' is an invalid type', () => {
-        expect(_.map(null)).toEqual([]);
-        expect(_.map(undefined)).toEqual([]);
-        expect(_.map(Infinity)).toEqual([]);
+        expect(_.map(null)).toEqual(OrigLodash.map(null));
+        expect(_.map(undefined)).toEqual(OrigLodash.map(undefined));
+        expect(_.map(undefined)).toEqual(OrigLodash.map(undefined));
     });
 });

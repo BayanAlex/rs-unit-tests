@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: zip', () => {
     let _ = new MyLodash();
@@ -25,42 +26,38 @@ describe('MyLodash: zip', () => {
     });
 
     test('should work with arrays', () => {
-        let result = [[0, 2], [1, 3], [2, 4], [3, 5], [5, 6], [6, 7], [9, undefined]];
-        expect(_.zip(testArray, testArray2)).toEqual(result);
-        result = [[0, 2, 1], [1, 3, '3'], [2, 4, false], [3, 5, null], [5, 6, undefined], [6, 7, {a: 3}], [9, undefined, undefined]];
-        expect(_.zip(testArray, testArray2, testArray3)).toEqual(result);
+        expect(_.zip(testArray, testArray2)).toEqual(OrigLodash.zip(testArray, testArray2));
+        expect(_.zip(testArray, testArray2, testArray3)).toEqual(OrigLodash.zip(testArray, testArray2, testArray3));
     });
 
     test('should work with array-like objects', () => {
-        let result = [[0, 1], [1, 2], [2, 3], [3, undefined], [5, undefined], [6, undefined], [9, undefined]];
-        expect(_.zip(testArray, testArrayObject)).toEqual(result);
+        expect(_.zip(testArray, testArrayObject)).toEqual(OrigLodash.zip(testArray, testArrayObject));
     });
 
     test('should ignore \'arrays\' items of non-array types', () => {
-        const result = [[0], [1], [2], [3], [5], [6], [9]];
-        expect(_.zip(testArray, '123')).toEqual(result);
-        expect(_.zip(null, testArray)).toEqual(result);
+        expect(_.zip(testArray, '123')).toEqual(OrigLodash.zip(testArray, '123'));
+        expect(_.zip(null, testArray)).toEqual(OrigLodash.zip(null, testArray));
         delete testArrayObject.length;
-        expect(_.zip(testArray, testArrayObject)).toEqual(result);
+        expect(_.zip(testArray, testArrayObject)).toEqual(OrigLodash.zip(testArray, testArrayObject));
     });
 
     test('should return an empty array if \'arrays\' is an invalid type or empty', () => {
-        expect(_.zip()).toEqual([]);
-        expect(_.zip([])).toEqual([]);
-        expect(_.zip(null)).toEqual([]);
-        expect(_.zip(undefined)).toEqual([]);
-        expect(_.zip(Infinity)).toEqual([]);
+        expect(_.zip()).toEqual(OrigLodash.zip());
+        expect(_.zip([])).toEqual(OrigLodash.zip([]));
+        expect(_.zip(null)).toEqual(OrigLodash.zip(null));
+        expect(_.zip(undefined)).toEqual(OrigLodash.zip(undefined));
+        expect(_.zip(Infinity)).toEqual(OrigLodash.zip(Infinity));
         let testArrayLike = {
             0: 1,
             1: 2,
             length: 'a'
         }
-        expect(_.zip(testArrayLike)).toEqual([]);
+        expect(_.zip(testArrayLike)).toEqual(OrigLodash.zip(testArrayLike));
         testArrayLike = {
             0: 1,
             1: 2,
             length: Infinity
         }
-        expect(_.zip(testArrayLike)).toEqual([]);
+        expect(_.zip(testArrayLike)).toEqual(OrigLodash.zip(testArrayLike));
     });
 });

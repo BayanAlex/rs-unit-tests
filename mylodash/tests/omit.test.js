@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: omit', () => {
     let _ = new MyLodash();
@@ -23,57 +24,47 @@ describe('MyLodash: omit', () => {
     });
 
     test('should omit properties from a given string path', () => {
-        const result = { a: 1, b: {c: 5}, c: 3 };
-        expect(_.omit(object2, 'b.a')).toEqual(result);
+        expect(_.omit(object2, 'b.a')).toEqual(OrigLodash.omit(object2, 'b.a'));
     });
 
     test('should omit properties from a given array of paths', () => {
-        let result = { b: {c: 5}, c: 3 };
-        expect(_.omit(object2, ['a', 'b.a'])).toEqual(result);
-        result = { c: 3 };
-        expect(_.omit(object2, 'b', 'a')).toEqual(result);
-        expect(_.omit(object2, ['b', 'a'])).toEqual(result);
-        result = { a: 1, b: {c: 5}, c: 3 };
-        expect(_.omit(object2, [['b', 'a']])).toEqual(result);
+        expect(_.omit(object2, ['a', 'b.a'])).toEqual(OrigLodash.omit(object2, ['a', 'b.a']));
+        expect(_.omit(object2, 'b', 'a')).toEqual(OrigLodash.omit(object2, 'b', 'a'));
+        expect(_.omit(object2, ['b', 'a'])).toEqual(OrigLodash.omit(object2, ['b', 'a']));
+        expect(_.omit(object2, [['b', 'a']])).toEqual(OrigLodash.omit(object2, [['b', 'a']]));
     });
 
     test('should omit properties from multiple paths arguments', () => {
-        const result = { b: {c: 5} };
-        expect(_.omit(object2, 'a', 'b.a', ['c'])).toEqual(result);
+        expect(_.omit(object2, 'a', 'b.a', ['c'])).toEqual(OrigLodash.omit(object2, 'a', 'b.a', ['c']));
     });
 
     test('should work with path arguments of different types', () => {
         object1 = { undefined: 1, null: '2', NaN: 3, 'c': 4 };
-        let result = { null: '2', 'c': 4 };
-        expect(_.omit(object1, undefined, NaN)).toEqual(result);
-        result = { undefined: 1, NaN: 3, 'c': 4 };
-        expect(_.omit(object1, null)).toEqual(result);
+        expect(_.omit(object1, undefined, NaN)).toEqual(OrigLodash.omit(object1, undefined, NaN));
+        expect(_.omit(object1, null)).toEqual(OrigLodash.omit(object1, null));
     });
 
     test('should make an object from string', () => {
-        const result = { 1: 'e', 2: 's', 3: 't' };
-        expect(_.omit(string, 0)).toEqual(result);
+        expect(_.omit(string, 0)).toEqual(OrigLodash.omit(string, 0));
     });
 
     test('should make an object from array', () => {
-        const result =  { 1: 1, 2: 'a', 3: true, 4: null };
-        expect(_.omit(array, 0)).toEqual(result);
+        expect(_.omit(array, 0)).toEqual(OrigLodash.omit(array, 0));
     });
 
     test('should skip nested object\'s properties', () => {
-        let result = { 'a': 1, 'b': {'a': 1, 'c': 5} };
-        expect(_.omit(object2, [0, 'c'])).toEqual(result);
+        expect(_.omit(object2, [0, 'c'])).toEqual(OrigLodash.omit(object2, [0, 'c']));
     });
 
     test('should skip invalid or empty \'paths\'', () => {
-        expect(_.omit(object1)).toEqual(object1);
-        expect(_.omit(object1, {})).toEqual(object1);
-        expect(_.omit(object1, 'f.b')).toEqual(object1);
+        expect(_.omit(object1)).toEqual(OrigLodash.omit(object1));
+        expect(_.omit(object1, {})).toEqual(OrigLodash.omit(object1));
+        expect(_.omit(object1, 'f.b')).toEqual(OrigLodash.omit(object1));
     });
 
     test('should return an empty object if \'object\' is invalid', () => {
-        expect(_.omit(12, 0)).toEqual({});
-        expect(_.omit(undefined, 0)).toEqual({});
-        expect(_.omit(null, 0)).toEqual({});
+        expect(_.omit(12, 0)).toEqual(OrigLodash.omit(12, 0));
+        expect(_.omit(undefined, 0)).toEqual(OrigLodash.omit(12, 0));
+        expect(_.omit(null, 0)).toEqual(OrigLodash.omit(12, 0));
     });
 });

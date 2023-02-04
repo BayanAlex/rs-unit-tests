@@ -175,12 +175,15 @@ class MyLodash {
     }
 
     find(collection, predicate = this.identity, fromIndex = 0) {
-        if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
+        if (!collection || (!collection.length && !(typeof collection === 'object'))) return undefined;
 
         let start = +fromIndex;
         if (isNaN(start)) start = 0;
         const specFunction = this.assignSpecFunction(predicate);
 
+        let count = 0;
+        for (let prop in collection) count += 1;
+        if (start < 0) start = count + start;
         let index = 0;
         for (let prop in collection) {
             if (index >= start && specFunction(collection[prop], prop, collection)) {
@@ -197,14 +200,17 @@ class MyLodash {
         let start = +fromIndex;
         if (isNaN(start)) start = 0;
 
-        if(typeof collection === 'string') {
+        if (typeof collection === 'string') {
             const searchValue = '' + value;
-            return collection.includes(searchValue); //String.prototype function is allowed
+            return collection.includes(searchValue); //String.prototype is not forbidden
         }
 
+        let count = 0;
+        for (let prop in collection) count += 1;
+        if (start < 0) start = count + start;
         let index = 0;
         for (let prop in collection) {
-            if (index >= start && (typeof collection[prop] === 'object' ? JSON.stringify(collection[prop]) ===  JSON.stringify(value) : collection[prop] === value)) {
+            if (index >= start && collection[prop] === value) {
                 return true;
             }
             index += 1;
@@ -251,8 +257,6 @@ class MyLodash {
     merge(object, ...sources) {
         const result = object instanceof Object ? JSON.parse(JSON.stringify(object)) : new Object(object);
 
-        if (!sources || (typeof object !== 'object')) return result;
-
         const setProp = (source, dest, prop) => {
             if (!(dest[prop] instanceof Object && source[prop] instanceof Object)) {
                 if (source[prop] !== undefined) dest[prop] = source[prop];
@@ -293,9 +297,7 @@ class MyLodash {
         for (let path of paths) {
             if (path instanceof Array) {
                 for (let subpath of path) {
-                    // if (!(subpath instanceof Object)) {
-                        removeProp(subpath);
-                    // }
+                    removeProp(subpath);
                 }
             } else {
                 removeProp(path);
@@ -359,14 +361,14 @@ class MyLodash {
     toPairs(object) {
         const result = [];
         if (object instanceof Set) {
-            for (let key of object.keys()) { // Set.prototype is allowed
+            for (let key of object.keys()) { // Set.prototype is not forbidden
                 this.pushToArray(result, [key, key]);
             }
             return result;
         }
 
         if (object instanceof Map) {
-            for (let key of object.keys()) { // Map.prototype is allowed
+            for (let key of object.keys()) { // Map.prototype is not forbidden
                 this.pushToArray(result, [key, object.get(key)]);
             }
             return result;

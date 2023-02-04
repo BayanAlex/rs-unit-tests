@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: take', () => {
     let _ = new MyLodash();
@@ -23,48 +24,43 @@ describe('MyLodash: take', () => {
     });
 
     test('should work with new Array', () => {
-        expect(_.take(new Array(3), 2)).toEqual([undefined, undefined]);
+        expect(_.take(new Array(3), 2)).toEqual(OrigLodash.take(new Array(3), 2));
     });
 
     test('should return a slice of array excluding n first items', () => {
-        const result = [0, 1, 2];
-        expect(_.take(testArray, 3)).toEqual(result);
+        expect(_.take(testArray, 3)).toEqual(OrigLodash.take(testArray, 3));
     });
 
     test('should convert \'n\' to number', () => {
-        const result = [0, 1, 2];
-        expect(_.take(testArray, '3')).toEqual(result);
+        expect(_.take(testArray, '3')).toEqual(OrigLodash.take(testArray, '3'));
     });
 
     test('should process arrays with data of various types', () => {
         testArray = [0, 1, 2, 'test', null, true, { 0: 1 }];
-        const result = [0, 1, 2, 'test', null];
-        expect(_.take(testArray, 5)).toEqual(result);
+        expect(_.take(testArray, 5)).toEqual(OrigLodash.take(testArray, 5));
     });
 
     test('should return an empty array if \'array\' argument is an empty array', () => {
-        expect(_.take([], 1)).toEqual([]);
+        expect(_.take([], 1)).toEqual(OrigLodash.take([], 1));
     });
 
     test('should return an array equal to original one if \'n\' is bigger than array length', () => {
-        expect(_.take(testArray, Infinity)).toEqual(testArray);
-        expect(_.take(testArray, 8)).toEqual(testArray);
+        expect(_.take(testArray, Infinity)).toEqual(OrigLodash.take(testArray, Infinity));
+        expect(_.take(testArray, 8)).toEqual(OrigLodash.take(testArray, 8));
     });
 
     test('should return an empty array if \'n\' is less or equals zero', () => {
-        expect(_.take(testArray, -Infinity)).toEqual([]);
-        expect(_.take(testArray, 0)).toEqual([]);
-        expect(_.take(testArray, -8)).toEqual([]);
+        expect(_.take(testArray, -Infinity)).toEqual(OrigLodash.take(testArray, -Infinity));
+        expect(_.take(testArray, 0)).toEqual(OrigLodash.take(testArray, 0));
+        expect(_.take(testArray, -8)).toEqual(OrigLodash.take(testArray, -8));
     });
 
     test('should return an array sliced with n = 1 if \'n\' is omitted', () => {
-        const result = [0];
-        expect(_.take(testArray)).toEqual(result);
+        expect(_.take(testArray)).toEqual(OrigLodash.take(testArray));
     });
 
     test('should split a string', () => {
-        const result = ['1', '2', '3'];
-        expect(_.take('123abc', 3)).toEqual(result);
+        expect(_.take('123abc', 3)).toEqual(OrigLodash.take('123abc', 3));
     });
 
     test('should work with array-like objects', () => {
@@ -74,24 +70,21 @@ describe('MyLodash: take', () => {
             2: 3,
             length: 3
         }
-        let result = [1, 2];
-
-        expect(_.take(testArrayLike, 2)).toEqual(result);
+        expect(_.take(testArrayLike, 2)).toEqual(OrigLodash.take(testArrayLike, 2));
         testArrayLike = {
             0: 1,
             1: 2,
             2: 3,
             length: 4
         }
-        result = [1, 2];
-        expect(_.take(testArrayLike, 2)).toEqual(result);
+        expect(_.take(testArrayLike, 2)).toEqual(OrigLodash.take(testArrayLike, 2));
     });
 
     test('should return an empty array if \'array\' has invalid type', () => {
-        expect(_.take({ 0 : 3 }, 3)).toEqual([]);
-        expect(_.take(null, 3)).toEqual([]);
-        expect(_.take(undefined, 3)).toEqual([]);
-        expect(_.take(Infinity, 3)).toEqual([]);
+        expect(_.take({ 0 : 3 }, 3)).toEqual(OrigLodash.take({ 0 : 3 }, 3));
+        expect(_.take(null, 3)).toEqual(OrigLodash.take(null, 3));
+        expect(_.take(undefined, 3)).toEqual(OrigLodash.take(undefined, 3));
+        expect(_.take(Infinity, 3)).toEqual(OrigLodash.take(Infinity, 3));
         let testArrayLike = {
             0: 1,
             1: 2,
@@ -107,6 +100,6 @@ describe('MyLodash: take', () => {
     });
 
     test('should return an empty array if \'n\' is an invalid type', () => {
-        expect(_.take(testArray, 'a')).toEqual([]);
+        expect(_.take(testArray, 'a')).toEqual(OrigLodash.take(testArray, 'a'));
     });
 });

@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: toPairs', () => {
     let _ = new MyLodash();
@@ -24,25 +25,21 @@ describe('MyLodash: toPairs', () => {
     });
 
     test('should make pairs of object properties', () => {
-        let result = [['a', 1], ['b', '2'], ['c', 3]];
-        expect(_.toPairs(object1)).toEqual(result);
-        result = [['a', 1], ['b', {'a': 1, 'c': 5}], ['c', 3]];
-        expect(_.toPairs(object2)).toEqual(result);
+        expect(_.toPairs(object1)).toEqual(OrigLodash.toPairs(object1));
+        expect(_.toPairs(object2)).toEqual(OrigLodash.toPairs(object2));
     });
 
     test('should process different types of keys and values', () => {
-        result = [['NaN', null], ['undefined', ''], ['true', false]];
-        expect(_.toPairs(object3)).toEqual(result);
+        expect(_.toPairs(object3)).toEqual(OrigLodash.toPairs(object3));
     });
 
     test('should make an object from string', () => {
-        const result = [['0', 't'], ['1', 'e'], ['2', 's'], ['3', 't']];
-        expect(_.toPairs(string)).toEqual(result);
+        expect(_.toPairs(string)).toEqual(OrigLodash.toPairs(string));
     });
 
     test('should make an object from array', () => {
         const result = [['0', 0], ['1', 1], ['2', 'a'], ['3', true], ['4', null]];
-        expect(_.toPairs(array)).toEqual(result);
+        expect(_.toPairs(array)).toEqual(OrigLodash.toPairs(array));
     });
 
     test('should take only own properties', () => {
@@ -51,24 +48,21 @@ describe('MyLodash: toPairs', () => {
             this.b = 2;
         }
         Foo.prototype.c = 3;
-        const result = [['a', 1], ['b', 2]];
-        expect(_.toPairs(new Foo)).toEqual(result);
+        expect(_.toPairs(new Foo)).toEqual(OrigLodash.toPairs(new Foo));
     });
 
     test('should return map and set entries', () => {
         const map = new Map();
         map.set('a', 1);
         map.set(2, true);
-        let result = [['a', 1], [2, true]];
-        expect(_.toPairs(map)).toEqual(result);
+        expect(_.toPairs(map)).toEqual(OrigLodash.toPairs(map));
         const set = new Set([1, 'a']);
-        result = [[1, 1], ['a', 'a']];
-        expect(_.toPairs(set)).toEqual(result);
+        expect(_.toPairs(set)).toEqual(OrigLodash.toPairs(set));
     });
 
     test('should return an empty array if \'object\' is invalid', () => {
-        expect(_.toPairs(12)).toEqual([]);
-        expect(_.toPairs(undefined)).toEqual([]);
-        expect(_.toPairs(null)).toEqual([]);
+        expect(_.toPairs(12)).toEqual(OrigLodash.toPairs(12));
+        expect(_.toPairs(undefined)).toEqual(OrigLodash.toPairs(undefined));
+        expect(_.toPairs(null)).toEqual(OrigLodash.toPairs(null));
     });
 });

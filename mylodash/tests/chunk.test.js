@@ -1,4 +1,5 @@
 const MyLodash = require('../mylodash');
+const OrigLodash = require('lodash');
 
 describe('MyLodash: chunk', () => {
     let _ = new MyLodash();
@@ -23,57 +24,49 @@ describe('MyLodash: chunk', () => {
     });
 
     test('should return an array of arrays of given size', () => {
-        const result1 = [[1, 2, 3], [ 4, 5, 6]];
-        const result2 = [[1, 2], [3, 4], [5, 6]];
-        expect(_.chunk(testArray, 3)).toEqual(result1);
-        expect(_.chunk(testArray, 2)).toEqual(result2);
+        expect(_.chunk(testArray, 3)).toEqual(OrigLodash.chunk(testArray, 3));
+        expect(_.chunk(testArray, 2)).toEqual(OrigLodash.chunk(testArray, 2));
     });
 
 
     test('should return array chunked with size = 1 if \'size\' is omitted', () => {
-        const result = [[1], [2], [3], [4], [5], [6]];
-        expect(_.chunk(testArray)).toEqual(result);
+        expect(_.chunk(testArray)).toEqual(OrigLodash.chunk(testArray));
     });
 
     test('should return an array of arrays of given size and array of remaining items', () => {
-        const result = [[1, 2, 3, 4], [5, 6]];
-        expect(_.chunk(testArray, 4)).toEqual(result);
+        expect(_.chunk(testArray, 4)).toEqual(OrigLodash.chunk(testArray, 4));
     });
 
     test('should convert \'size\' to number', () => {
-        const result = [[1, 2, 3, 4], [5, 6]];
-        expect(_.chunk(testArray, '4')).toEqual(result);
+        expect(_.chunk(testArray, '4')).toEqual(OrigLodash.chunk(testArray, '4'));
     });
 
     test('should process arrays with data of various types', () => {
         testArray = [1, '3', false, null, undefined, {a: 3}]
-        const result = [[1, '3', false], [null, undefined, {a: 3}]];
-        expect(_.chunk(testArray, 3)).toEqual(result);
+        expect(_.chunk(testArray, 3)).toEqual(OrigLodash.chunk(testArray, 3));
     });
 
     test('should return an empty array if \'array\' argument is an empty array', () => {
-        expect(_.chunk([], 1)).toEqual([]);
+        expect(_.chunk([], 1)).toEqual(OrigLodash.chunk([], 1));
     });
 
     test('should return an array consisting of 1 array item if \'size\' is bigger than array length', () => {
-        expect(_.chunk(testArray, Infinity)).toEqual([testArray]);
-        expect(_.chunk(testArray, 8)).toEqual([testArray]);
+        expect(_.chunk(testArray, Infinity)).toEqual(OrigLodash.chunk(testArray, Infinity));
+        expect(_.chunk(testArray, 8)).toEqual(OrigLodash.chunk(testArray, 8));
     });
 
     test('should return an empty array if \'size\' is less or equals zero', () => {
-        expect(_.chunk(testArray, -Infinity)).toEqual([]);
-        expect(_.chunk(testArray, 0)).toEqual([]);
-        expect(_.chunk(testArray, -8)).toEqual([]);
+        expect(_.chunk(testArray, -Infinity)).toEqual(OrigLodash.chunk(testArray, -Infinity));
+        expect(_.chunk(testArray, 0)).toEqual(OrigLodash.chunk(testArray, 0));
+        expect(_.chunk(testArray, -8)).toEqual(OrigLodash.chunk(testArray, -8));
     });
 
     test('should work with new Array', () => {
-        const result = [[undefined, undefined], [undefined]];
-        expect(_.chunk(new Array(3), 2)).toEqual(result);
+        expect(_.chunk(new Array(3), 2)).toEqual(OrigLodash.chunk(new Array(3), 2));
     });
 
     test('should split a string', () => {
-        const result = [['1', '2'], ['3', '4']];
-        expect(_.chunk('1234', 2)).toEqual(result);
+        expect(_.chunk('1234', 2)).toEqual(OrigLodash.chunk('1234', 2));
     });
 
     test('should work with array-like objects', () => {
@@ -83,23 +76,21 @@ describe('MyLodash: chunk', () => {
             2: 3,
             length: 3
         }
-        let result = [[1, 2], [3]];
 
-        expect(_.chunk(testArrayLike, 2)).toEqual(result);
+        expect(_.chunk(testArrayLike, 2)).toEqual(OrigLodash.chunk(testArrayLike, 2));
         testArrayLike = {
             0: 1,
             1: 2,
             length: 3
         }
-        result = [[1, 2], [undefined]];
-        expect(_.chunk(testArrayLike, 2)).toEqual(result);
+        expect(_.chunk(testArrayLike, 2)).toEqual(OrigLodash.chunk(testArrayLike, 2));
     });
 
     test('should return an empty array if \'array\' is an invalid type', () => {
-        expect(_.chunk({ 0 : 3 }, 3)).toEqual([]);
-        expect(_.chunk(null, 3)).toEqual([]);
-        expect(_.chunk(undefined, 3)).toEqual([]);
-        expect(_.chunk(Infinity, 3)).toEqual([]);
+        expect(_.chunk({ 0 : 3 }, 3)).toEqual(OrigLodash.chunk({ 0 : 3 }, 3));
+        expect(_.chunk(null, 3)).toEqual(OrigLodash.chunk(null, 3));
+        expect(_.chunk(undefined, 3)).toEqual(OrigLodash.chunk(undefined, 3));
+        expect(_.chunk(Infinity, 3)).toEqual(OrigLodash.chunk(Infinity, 3));
         let testArrayLike = {
             0: 1,
             1: 2,
@@ -115,6 +106,6 @@ describe('MyLodash: chunk', () => {
     });
 
     test('should return an empty array if \'size\' is an invalid type', () => {
-        expect(_.chunk(testArray, 'a')).toEqual([]);
+        expect(_.chunk(testArray, 'a')).toEqual(OrigLodash.chunk(testArray, 'a'));
     });
 });
