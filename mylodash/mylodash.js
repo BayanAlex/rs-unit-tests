@@ -94,7 +94,7 @@ class MyLodash {
         }
     }
 
-//*************** Objects ***************
+//*************** Arrays ***************
 
     chunk(array, size = 1) {
         const result = [];
