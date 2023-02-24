@@ -66,7 +66,7 @@ describe('MyLodash: chunk', () => {
         expect(_.chunk(testArray, -8)).toEqual([]);
     });
 
-    test('should work with new Array', () => {
+    test('should be able to accept \'array\' created with \'new Array()\'', () => {
         const result = [[undefined, undefined], [undefined]];
         expect(_.chunk(new Array(3), 2)).toEqual(result);
     });
@@ -76,7 +76,7 @@ describe('MyLodash: chunk', () => {
         expect(_.chunk('1234', 2)).toEqual(result);
     });
 
-    test('should work with array-like objects', () => {
+    test('should operate with array-like objects', () => {
         let testArrayLike = {
             0: 1,
             1: 2,

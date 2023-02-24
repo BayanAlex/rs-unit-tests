@@ -75,7 +75,7 @@ describe('MyLodash: dropWhile', () => {
         expect(_.dropWhile('11234', testFunction)).toEqual(['2', '3', '4']);
     });
 
-    test('should work with array-like objects', () => {
+    test('should operate with array-like objects', () => {
         const testArrayLike = {
             0: 1,
             1: 1,

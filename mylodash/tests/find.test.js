@@ -22,12 +22,12 @@ describe('MyLodash: find', () => {
         expect(testArray).toEqual(testArrayCopy);
     });
 
-    test('should work with an array collection', () => {
+    test('should operate with an array collection', () => {
         const testFunction = (value) => value > 3;
         expect(_.find([0, 1, 2, 3, 4, 5], testFunction)).toEqual(4);
     });
 
-    test('should work with an object collection', () => {
+    test('should operate with an object collection', () => {
         const testFunction = (value) => value > 2;
         expect(_.find({a: 1, b: 2, c: 3}, testFunction)).toEqual(3);
     });
@@ -77,7 +77,7 @@ describe('MyLodash: find', () => {
     test('should start a search from \'fromIndex\'', () => {
         let testFunction = (value) => value > 1;
         expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, 2)).toEqual(5);
-        expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, -2)).toEqual(2);
+        expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, -2)).toEqual(4);
         expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, 10)).toBeUndefined;
         expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, Infinity)).toBeUndefined;
     });
@@ -93,9 +93,9 @@ describe('MyLodash: find', () => {
         expect(_.find([0, 2, 1, 0, 5, 3, 4, 4], testFunction, {})).toEqual(2);
     });
 
-    test('should return an empty array if \'collection\' is an invalid type', () => {
-        expect(_.find(null)).toEqual([]);
-        expect(_.find(undefined)).toEqual([]);
-        expect(_.find(Infinity)).toEqual([]);
+    test('should return undefined if \'collection\' is an invalid type', () => {
+        expect(_.find(null)).toEqual(undefined);
+        expect(_.find(undefined)).toEqual(undefined);
+        expect(_.find(Infinity)).toEqual(undefined);
     });
 });

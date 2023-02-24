@@ -26,12 +26,12 @@ describe('MyLodash: filter', () => {
         expect(testArray).toEqual(testArrayCopy);
     });
 
-    test('should work with an array collection', () => {
+    test('should operate with an array collection', () => {
         const testFunction = (value) => value < 3;
         expect(_.filter([0, 1, 2, 3, 4, 5], testFunction)).toEqual([0, 1, 2]);
     });
 
-    test('should work with an object collection', () => {
+    test('should operate with an object collection', () => {
         const testFunction = (value) => value > 1;
         expect(_.filter({a: 1, b: 2, c: 3}, testFunction)).toEqual([2, 3]);
     });

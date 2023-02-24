@@ -7,8 +7,12 @@ class MyLodash {
     }
 
     arrayFrom(value) {
-        if (value instanceof Array) return [...value];
-        if (typeof value === 'string') return value.split('');
+        if (value instanceof Array) {
+            return [...value];
+        }
+        if (typeof value === 'string') {
+            return value.split('');
+        }
         if (value?.length) {
             const count = +value.length;
             if (isNaN(count) || !isFinite(count) || count <= 0) return [];
@@ -22,8 +26,12 @@ class MyLodash {
     }
 
     objectFrom(value) {
-        if (typeof value === 'string' || value instanceof Array) return {...value};
-        if (value instanceof Object) return JSON.parse(JSON.stringify(value));
+        if (typeof value === 'string' || value instanceof Array) {
+            return {...value};
+        }
+        if (value instanceof Object) {
+            return JSON.parse(JSON.stringify(value));
+        }
         return {};
     }
 
@@ -63,8 +71,11 @@ class MyLodash {
         const _path = this.toPath(path);
         let curPath = object;
         for (let i = 0; i < _path.length - 1; i += 1) {
-            if (!isNaN(Number.parseInt(_path[i + 1]))) curPath[_path[i]] = [];
-            else curPath[_path[i]] = {};
+            if (!isNaN(Number.parseInt(_path[i + 1]))) {
+                curPath[_path[i]] = [];
+            } else {
+                curPath[_path[i]] = {};
+            }
             curPath = curPath[_path[i]];
         }
         curPath[_path[_path.length - 1]] = value;
@@ -94,12 +105,14 @@ class MyLodash {
         }
     }
 
-//*************** Objects ***************
+//*************** Arrays ***************
 
     chunk(array, size = 1) {
         const result = [];
         const intSize = +size;
-        if (!array || !array.length || isNaN(intSize) || intSize <= 0) return [];
+        if (!array || !array.length || isNaN(intSize) || intSize <= 0) {
+            return [];
+        }
 
         const testArray = this.arrayFrom(array);
 
@@ -120,22 +133,30 @@ class MyLodash {
         const testArray = this.arrayFrom(array);
         const result = [];
         for (let value of testArray) {
-            if (!!value) this.pushToArray(result, value);
+            if (!!value) {
+                this.pushToArray(result, value);
+            }
         }
         return result;
     }
 
     drop(array, n = 1) {
         const start = +n;
-        if (!array || !array.length) return [];
-        if (start <= 0 || isNaN(start)) return array;
+        if (!array || !array.length) {
+            return [];
+        }
+        if (start <= 0 || isNaN(start)) {
+            return array;
+        }
 
         const result = this.slice(this.arrayFrom(array), start);
         return result;
     }
 
     dropWhile(array, predicate = this.identity) {
-        if (!array || !array.length || !predicate) return [];
+        if (!array || !array.length || !predicate) {
+            return [];
+        }
         const testArray = this.arrayFrom(array);
 
         const result = [];
@@ -155,14 +176,18 @@ class MyLodash {
 
     take(array, n = 1) {
         const end = +n;
-        if(!array || !array.length || end <= 0 || isNaN(end)) return [];
+        if (!array || !array.length || end <= 0 || isNaN(end)) {
+            return [];
+        }
 
         const result = this.slice(this.arrayFrom(array), 0, end);
         return result;
     }
 
     filter(collection, predicate = this.identity) {
-        if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
+        if (!collection || (!collection.length && !(typeof collection === 'object'))) {
+            return [];
+        }
 
         const result = [];
         const specFunction = this.assignSpecFunction(predicate);
@@ -175,12 +200,21 @@ class MyLodash {
     }
 
     find(collection, predicate = this.identity, fromIndex = 0) {
-        if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
+        if (!collection || (!collection.length && !(typeof collection === 'object'))) {
+            return undefined;
+        }
 
         let start = +fromIndex;
-        if (isNaN(start)) start = 0;
+        if (isNaN(start)) {
+            start = 0;
+        }
         const specFunction = this.assignSpecFunction(predicate);
 
+        let count = 0;
+        for (let prop in collection) count += 1;
+        if (start < 0) {
+            start = count + start;
+        }
         let index = 0;
         for (let prop in collection) {
             if (index >= start && specFunction(collection[prop], prop, collection)) {
@@ -192,19 +226,30 @@ class MyLodash {
     }
 
     includes(collection, value, fromIndex = 0) {
-        if (!collection || (!collection.length && !(typeof collection === 'object'))) return false;
-
-        let start = +fromIndex;
-        if (isNaN(start)) start = 0;
-
-        if(typeof collection === 'string') {
-            const searchValue = '' + value;
-            return collection.includes(searchValue); //String.prototype function is allowed
+        if (!collection || (!collection.length && !(typeof collection === 'object'))) {
+            return false;
         }
 
+        let start = +fromIndex;
+        if (isNaN(start)) {
+            start = 0;
+        }
+
+        if (typeof collection === 'string') {
+            const searchValue = '' + value;
+            return collection.includes(searchValue); //String.prototype is not forbidden
+        }
+
+        let count = 0;
+        for (let prop in collection) {
+            count += 1;
+        }
+        if (start < 0) {
+            start = count + start;
+        }
         let index = 0;
         for (let prop in collection) {
-            if (index >= start && (typeof collection[prop] === 'object' ? JSON.stringify(collection[prop]) ===  JSON.stringify(value) : collection[prop] === value)) {
+            if (index >= start && collection[prop] === value) {
                 return true;
             }
             index += 1;
@@ -213,9 +258,13 @@ class MyLodash {
     }
 
     map(collection, iteratee = this.identity) {
-        if (!collection || (!collection.length && !(typeof collection === 'object'))) return [];
+        if (!collection || (!collection.length && !(typeof collection === 'object'))) {
+            return [];
+        }
 
-        if (iteratee === null || iteratee === undefined) return collection;
+        if (iteratee === null || iteratee === undefined) {
+            return collection;
+        }
 
         const specFunction = this.assignSpecFunction(iteratee);
 
@@ -227,7 +276,9 @@ class MyLodash {
     }
 
     zip(...arrays) {
-        if (arrays.length === 0) return [];
+        if (arrays.length === 0) {
+            return [];
+        }
 
         const result = [];
         const validArray = (array) => !!array && (array instanceof Array || (typeof array === 'object' && !isNaN(+array.length) && isFinite(+array.length)));
@@ -250,8 +301,6 @@ class MyLodash {
 
     merge(object, ...sources) {
         const result = object instanceof Object ? JSON.parse(JSON.stringify(object)) : new Object(object);
-
-        if (!sources || (typeof object !== 'object')) return result;
 
         const setProp = (source, dest, prop) => {
             if (!(dest[prop] instanceof Object && source[prop] instanceof Object)) {
@@ -284,8 +333,12 @@ class MyLodash {
             let _path = this.toPath(path);
             let curPath = result;
             for (let i = 0; i < _path.length; i += 1) {
-                if (!curPath) return;
-                if (i < _path.length - 1) curPath = curPath[_path[i]];
+                if (!curPath) {
+                    return;
+                }
+                if (i < _path.length - 1) {
+                    curPath = curPath[_path[i]];
+                }
             }
             delete curPath[_path[_path.length - 1]];
         };
@@ -293,9 +346,7 @@ class MyLodash {
         for (let path of paths) {
             if (path instanceof Array) {
                 for (let subpath of path) {
-                    // if (!(subpath instanceof Object)) {
-                        removeProp(subpath);
-                    // }
+                    removeProp(subpath);
                 }
             } else {
                 removeProp(path);
@@ -305,8 +356,12 @@ class MyLodash {
     }
 
     omitBy(object, predicate = this.identity) {
-        if (!(object instanceof Object) && (typeof object !== 'string')) return {};
-        if (!(predicate instanceof Function)) return object;
+        if (!(object instanceof Object) && (typeof object !== 'string')) {
+            return {};
+        }
+        if (!(predicate instanceof Function)) {
+            return object;
+        }
 
         const result = this.objectFrom(object);
         for (let key in result) {
@@ -319,7 +374,9 @@ class MyLodash {
     }
 
     pick(object, ...paths) {
-        if (!(object instanceof Object) && (typeof object !== 'string')) return {};
+        if (!(object instanceof Object) && (typeof object !== 'string')) {
+            return {};
+        }
 
         const result = {};
 
@@ -344,7 +401,9 @@ class MyLodash {
     }
 
     pickBy(object, predicate = this.identity) {
-        if (!(predicate instanceof Function)) return {};
+        if (!(predicate instanceof Function)) {
+            return {};
+        }
 
         const result = this.objectFrom(object);
         for (let key in result) {
@@ -359,14 +418,14 @@ class MyLodash {
     toPairs(object) {
         const result = [];
         if (object instanceof Set) {
-            for (let key of object.keys()) { // Set.prototype is allowed
+            for (let key of object.keys()) { // Set.prototype is not forbidden
                 this.pushToArray(result, [key, key]);
             }
             return result;
         }
 
         if (object instanceof Map) {
-            for (let key of object.keys()) { // Map.prototype is allowed
+            for (let key of object.keys()) { // Map.prototype is not forbidden
                 this.pushToArray(result, [key, object.get(key)]);
             }
             return result;

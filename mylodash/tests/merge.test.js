@@ -45,21 +45,27 @@ describe('MyLodash: merge', () => {
     test('should merge strings to objects', () => {
         object1 = { 0: '1', 3: 2 };
         object2 = 'ab';
-        let result = { 0: 'a', 1: 'b', 3: 2 };
+        const result = { 0: 'a', 1: 'b', 3: 2 };
         expect(_.merge(object1, object2)).toEqual(result);
     });
 
     test('should skip undefined source properties if they exist in the \'object\'', () => {
         object1 = { 0: 3, 1: {'a': 2} };
         object2 = { 0: undefined, 1: {'a': undefined}, 3: 2 };
-        result = { 0: 3, 1: {'a': 2}, 3: 2 };
+        const result = { 0: 3, 1: {'a': 2}, 3: 2 };
         expect(_.merge(object1, object2)).toEqual(result);
     });
 
-    test('should return Object-wrapped primitives if passed to \'object\' argument', () => {
+    test('should return an Object-wrapped primitive passed to \'object\' argument merged with the object \'value\'', () => {
+        let result = new Number(12);
+        result.a = [{b: 2}, {d: 4}];
         expect(_.merge(12, object1)).toEqual(new Number(12));
-        expect(_.merge('ab', object1)).toEqual(new String('ab'));
-        expect(_.merge(true, object1)).toEqual(new Boolean(true));
+        result = new String('ab');
+        result.a = [{b: 2}, {d: 4}];
+        expect(_.merge('ab', object1)).toEqual(result);
+        result = new Boolean(true);
+        result.a = [{b: 2}, {d: 4}];
+        expect(_.merge(true, object1)).toEqual(result);
     });
 
     test('should skip invalid or empty \'sources\'', () => {

@@ -42,7 +42,7 @@ describe('MyLodash: omit', () => {
         expect(_.omit(object2, 'a', 'b.a', ['c'])).toEqual(result);
     });
 
-    test('should work with path arguments of different types', () => {
+    test('should operate with path arguments of different types', () => {
         object1 = { undefined: 1, null: '2', NaN: 3, 'c': 4 };
         let result = { null: '2', 'c': 4 };
         expect(_.omit(object1, undefined, NaN)).toEqual(result);

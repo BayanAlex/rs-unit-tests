@@ -24,14 +24,14 @@ describe('MyLodash: zip', () => {
         expect(testArray2).toEqual(testArrayCopy2);
     });
 
-    test('should work with arrays', () => {
+    test('should operate with arrays', () => {
         let result = [[0, 2], [1, 3], [2, 4], [3, 5], [5, 6], [6, 7], [9, undefined]];
         expect(_.zip(testArray, testArray2)).toEqual(result);
         result = [[0, 2, 1], [1, 3, '3'], [2, 4, false], [3, 5, null], [5, 6, undefined], [6, 7, {a: 3}], [9, undefined, undefined]];
         expect(_.zip(testArray, testArray2, testArray3)).toEqual(result);
     });
 
-    test('should work with array-like objects', () => {
+    test('should operate with array-like objects', () => {
         let result = [[0, 1], [1, 2], [2, 3], [3, undefined], [5, undefined], [6, undefined], [9, undefined]];
         expect(_.zip(testArray, testArrayObject)).toEqual(result);
     });

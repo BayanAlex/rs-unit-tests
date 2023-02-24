@@ -27,7 +27,7 @@ describe('MyLodash: compact', () => {
         expect(_.compact(testArray)).toEqual(result);
     });
 
-    test('should work with new Array', () => {
+    test('should be able to accept \'array\' created with \'new Array()\'', () => {
         expect(_.compact(new Array(3))).toEqual([]);
     });
 
@@ -36,7 +36,7 @@ describe('MyLodash: compact', () => {
         expect(_.compact('123abc')).toEqual(result);
     });
 
-    test('should work with array-like objects', () => {
+    test('should operate with array-like objects', () => {
         let testArrayLike = {
             0: 1,
             1: 2,

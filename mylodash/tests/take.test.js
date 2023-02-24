@@ -22,7 +22,7 @@ describe('MyLodash: take', () => {
         expect(testArray).toEqual(testArrayCopy);
     });
 
-    test('should work with new Array', () => {
+    test('should be able to accept \'array\' created with \'new Array()\'', () => {
         expect(_.take(new Array(3), 2)).toEqual([undefined, undefined]);
     });
 
@@ -67,7 +67,7 @@ describe('MyLodash: take', () => {
         expect(_.take('123abc', 3)).toEqual(result);
     });
 
-    test('should work with array-like objects', () => {
+    test('should operate with array-like objects', () => {
         let testArrayLike = {
             0: 1,
             1: 2,

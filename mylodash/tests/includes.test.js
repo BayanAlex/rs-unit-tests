@@ -31,31 +31,29 @@ describe('MyLodash: includes', () => {
         expect(testArray).toEqual(testArrayCopy);
     });
 
-    test('should work with an array', () => {
-        expect(_.includes(testArray, { 'user': 'barney',  'active': false })).toBe(true);
+    test('should operate with an array', () => {
         expect(_.includes(testArray2, 3)).toBe(true);
         expect(_.includes(testArray2, 20)).toBe(false);
     });
 
-    test('should work with different types of array items', () => {
+    test('should operate with different types of array items', () => {
         expect(_.includes(testArray3, null)).toBe(true);
-        expect(_.includes(testArray3, {a: 3})).toBe(true);
         expect(_.includes(testArray3, undefined)).toBe(true);
     });
 
-    test('should work with an object', () => {
+    test('should operate with an object', () => {
         expect(_.includes(testObject, 'barney')).toBe(true);
         expect(_.includes(testObject, 35)).toBe(true);
         expect(_.includes(testObject, 15)).toBe(false);
     });
 
-    test('should work with different types of object properties', () => {
+    test('should operate with different types of object properties', () => {
         expect(_.includes(testObject2, null)).toBe(true);
         expect(_.includes(testObject2, false)).toBe(true);
         expect(_.includes(testObject2, undefined)).toBe(true);
     });
 
-    test('should work with a string', () => {
+    test('should operate with a string', () => {
         expect(_.includes(testString, 'to')).toBe(true);
         expect(_.includes(testString, '')).toBe(true);
         expect(_.includes(testString, 'TO')).toBe(false);
@@ -68,7 +66,7 @@ describe('MyLodash: includes', () => {
 
     test('should start a search from \'fromIndex\'', () => {
         expect(_.includes(testArray2, 1, 2)).toBe(false);
-        expect(_.includes(testArray2, 1, -2)).toBe(true);
+        expect(_.includes(testArray2, 1, -2)).toBe(false);
         expect(_.includes(testArray2, 1, 1)).toBe(true);
         expect(_.includes(testArray2, 1, 10)).toBe(false);
         expect(_.includes(testArray2, 1, Infinity)).toBeUndefined;

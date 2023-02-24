@@ -40,7 +40,7 @@ describe('MyLodash: pick', () => {
         expect(_.pick(object2, 'a', 'b.a', ['c'])).toEqual(result);
     });
 
-    test('should work with path arguments of different types', () => {
+    test('should operate with path arguments of different types', () => {
         object1 = { undefined: 1, null: '2', NaN: 3, 'c': 4 };
         let result = { undefined: 1, NaN: 3 };
         expect(_.pick(object1, undefined, NaN)).toEqual(result);

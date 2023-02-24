@@ -31,12 +31,12 @@ describe('MyLodash: map', () => {
         expect(testArray).toEqual(testArrayCopy);
     });
 
-    test('should work with an array collection', () => {
+    test('should operate with an array collection', () => {
         const testFunction = (value) => value * 2;
         expect(_.map(testArray2, testFunction)).toEqual([0, 2, 4, 6, 10, 12, 18]);
     });
 
-    test('should work with an object collection', () => {
+    test('should operate with an object collection', () => {
         let testFunction = (value) => value * 2;
         expect(_.map(testObject3, testFunction)).toEqual([2, 4, 6]);
         testFunction = (value, key) => `${key}_${value}`;
